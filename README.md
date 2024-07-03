@@ -15,5 +15,5 @@ To make this code you will need to install Maven.
 
 To build the Java code go to the folder for the software and enter 'make makejava'.
 
-Before running the Java code you need to build and load the shared lPlease observibrary.  To do this enter 'sudo make clean install', this will compile and install the shared library.
+Before running the Java code you need to build and load the shared library.  To do this enter 'sudo make clean install', this will compile and install the shared library.
 
