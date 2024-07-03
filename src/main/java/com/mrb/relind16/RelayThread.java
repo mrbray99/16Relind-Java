@@ -6,10 +6,10 @@ import com.sun.jna.Pointer;
 import java.util.concurrent.TimeUnit;
 
 public class RelayThread implements Runnable{
-    private short[] relayOrder;
+    private final short[] relayOrder;
     private int result;
-    private Relay relay;
-    private int dev;
+    private final Relay relay;
+    private final int dev;
     public RelayThread(Relay relay,int dev, short[] relayOrder){
         super();
         this.relay = relay;

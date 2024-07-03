@@ -1,10 +1,8 @@
 package com.mrb.relind16;
 
 import com.sun.jna.Pointer;
-import com.sun.jna.Structure;
 
 import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
 
 public class ModbusSetingsType {
     int mbBaud; //24 bits
@@ -65,12 +63,12 @@ public class ModbusSetingsType {
     }
     public void setSettings(Pointer memory){
         byte[] bytes = memory.getByteArray(0,5);
-        int tmpBaud =((int)bytes[0]);
+        int tmpBaud =bytes[0];
         tmpBaud = tmpBaud<<16;
         if (tmpBaud<0)
             tmpBaud = tmpBaud^0xFFFF0000;
         mbBaud = tmpBaud;
-        tmpBaud=((int)bytes[1]);
+        tmpBaud=bytes[1];
         tmpBaud = tmpBaud<<8;
         if (tmpBaud<0)
             tmpBaud = tmpBaud^0xFFFF0000;
