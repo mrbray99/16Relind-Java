@@ -8,7 +8,7 @@ public class Constants {
         OFF(OFFSTATE),
         ON(ONSTATE),
         STATE_COUNT(STATE_STATECOUNT);
-        private int state;
+        private final int state;
         OutStateEnumType(int state) {
             this.state = state;
         }
@@ -24,7 +24,6 @@ public class Constants {
     }
     public static int CMD_ARRAY_SIZE=8;
     public static boolean THREAD_SAFE=true;
-    public static int TIMEOUT_S=3;
     public static int[] relayMaskRemap = {0x8000, 0x4000, 0x2000, 0x1000, 0x800, 0x400,
             0x200, 0x100, 0x80, 0x40, 0x20, 0x10, 0x8, 0x4, 0x2, 0x1};
     public static int[] relayChRemap = {15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1,

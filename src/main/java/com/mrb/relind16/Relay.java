@@ -74,7 +74,7 @@ public class Relay {
             "\twdtpwr:		Set the watchdog period in seconds, reload command must be issue in this interval to prevent Raspberry Pi power off\n",
             "\tUsage:		16relind <stack> wdtpwr <val> \n", "",
             "\tExample:		16relind 0 wdtpwr 10; Set the watchdog timer period on Board #0 at 10 seconds \n");
-    String usage = "Usage:	 16relind -h <command>\n" +
+    String usage = "Usage:	 java -jar 16relind.jar -h <command>\n" +
             "         16relind -v\n" +
             "         16relind -warranty\n" +
             "         16relind -list\n" +
@@ -84,7 +84,7 @@ public class Relay {
             "         16relind <id> read\n" +
             "         16relind <id> test\n" +
             "Where: <id> = Board level id = 0..7\n" +
-            "Type 16relind -h <command> for more help"; // No trailing newline needed here.
+            "Type java -jar 16relind.jar  -h <command> for more help"; // No trailing newline needed here.
 
     String warranty =
             "	       Copyright (c) 2016-2020 Sequent Microsystems and (c) 2024 - Mike Bray\n" +
@@ -130,7 +130,7 @@ public class Relay {
             "\tcfg485rd:    Read the RS485 communication settings\n",
             "\tUsage:      16relind <id> cfg485rd\n", "",
             "\tExample:		16relind 0 cfg485rd; Read the RS485 settings on Board #0\n");
-    CliCmdType gCmdArray[] = {CMD_HELP, CMD_WAR, CMD_VERSION, CMD_LIST,
+    CliCmdType[] gCmdArray = {CMD_HELP, CMD_WAR, CMD_VERSION, CMD_LIST,
             CMD_WRITE, CMD_READ, CMD_TEST, CMD_LED_BLINK, CMD_WDT_GET_INIT_PERIOD,
             CMD_WDT_GET_OFF_PERIOD, CMD_WDT_GET_PERIOD, CMD_WDT_RELOAD,
             CMD_WDT_SET_INIT_PERIOD, CMD_WDT_SET_OFF_PERIOD, CMD_WDT_SET_PERIOD,
@@ -192,7 +192,6 @@ public class Relay {
     }
 
     public int relayChGet(int dev, int channel, Pointer state) {
-        byte[] buff = new byte[ 2];
         short val;
         Pointer buffAdd = new Memory(2);
         if (state == null) {
@@ -218,8 +217,7 @@ public class Relay {
     }
 
     public int relaySet(int dev, int val) {
-        byte[] buff = new byte[ 2];
-        short rVal = 0;
+        short rVal;
         Pointer buffAdd = new Memory(2);
 
         rVal = relayToIO(0xffff & val);
@@ -229,9 +227,7 @@ public class Relay {
     }
 
     public int relayGet(int dev, Pointer valRAdd) {
-        byte[] buff = new byte[2];
-        short rVal = 0;
-        int val;
+        short rVal;
         Pointer buffAdd = new Memory(2);
 
         if (valRAdd == null) {
@@ -246,9 +242,9 @@ public class Relay {
     }
 
     int doBoardInit(int stack) {
-        int dev = 0;
-        int add = 0;
-        byte[] buff = new byte[8];
+        int dev;
+        int add;
+        byte[] buff;
         Pointer buffAdd = new Memory(8);
         if ((stack < 0) || (stack > 7)) {
             System.out.println("Invalid stack level [0..7]!");
@@ -294,8 +290,7 @@ public class Relay {
     }
 
     int boardCheck(int hwAdd) {
-        int dev = 0;
-        byte[] buff = new byte[8];
+        int dev;
         Pointer buffAdd = new Memory(8);
 
         hwAdd ^= 0x07;
@@ -315,8 +310,7 @@ public class Relay {
      **************************************************************************************
      */
     void doRelayWrite(int argc, String[] argv) {
-        Integer pin = 0;
-        byte pinByte;
+        Integer pin;
         Constants.OutStateEnumType state = Constants.OutStateEnumType.STATE_COUNT;
         int val = 0;
         int dev = 0;
